@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<nodedefs>
+ <nodedef name="GWControlService" class="com.lcrc.af.gw.GWControlService">
+ 	<attr name="Group">GW</attr>
+	<attr name="ConsumedEventTypes">Event,Trigger</attr>
+    <attr name="PublishedEventTypes">NONE</attr>
+    <attr name="NodeOverview">Supports controlling the Guidewire messaging, batch, logging and the profiler from a VDAB node. This requires installation of VDAB gosu code to expose these features as webservices.</attr>
+    <attr name="NodeDescTemplate"> ${ControlArea}-${Command}</attr>
+    <attr name="NodeQuality" >Alpha</attr>  
+    <datadef name="Product">
+		<attr name="Category">Required</attr>
+		<attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="Desc">Select the Guidewire product from the Pick Popup. Refreshing will populate the default values for the Host and Port.</attr>
+		<attr name="Enum">GWProductPrefix</attr>
+		<attr name="EditOrder" type="Integer">1</attr>
+	</datadef>
+	<datadef name="User">
+		<attr name="Category">Standard</attr>
+		<attr name="Desc">Identify a Guidewire user if security is required.</attr>
+		<attr name="EditOrder" type="Integer">21</attr>
+	</datadef>
+	<datadef  name="Password">
+		<attr name="Category">Standard</attr>
+		<attr name="Desc">Password for the Guidewire user.</attr>
+		<attr name="SpecialType">Password</attr>
+		<attr name="EditOrder" type="Integer">22</attr>
+	</datadef>
+	<datadef name="Host">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">The domain or IP where the Guidewire product is installed.</attr>
+		<attr name="EditOrder" type="Integer">11</attr>
+	</datadef>
+	<datadef name="Port">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">The port where the Guidewire product is installed.</attr>
+		<attr name="EditOrder" type="Integer">12</attr>
+	</datadef>
+	<datadef name="ControlArea">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select the general area being controlled  from the Pick Popup.</attr>
+		<attr name="EditWhileRunning" type="Boolean">true</attr>
+		<attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="EditOrder" type="Integer">31</attr>
+	</datadef>
+	<datadef name="Command">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select the control command available for that Control Area from the Pick Popup.</attr>
+		<attr name="EditWhileRunning" type="Boolean">true</attr>
+		<attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="EditOrder" type="Integer">32</attr>
+	</datadef>
+	<datadef name="Scope">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select which of the items in this group should be effected. Select one at a time followed by a return.</attr>
+		<attr name="EditWhileRunning" type="Boolean">true</attr>
+		<attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="EditOrder" type="Integer">33</attr>
+	</datadef>
+	<datadef name="Parameter">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select an argument or parameter that applies to this control operation.</attr>
+		<attr name="EditWhileRunning" type="Boolean">true</attr>
+		<attr name="EditOrder" type="Integer">34</attr>
+	</datadef>
+	<datadef name="OutputType">
+	  <attr name="Category">Hidden</attr>  
+	</datadef>
+</nodedef>
+<nodedef name="GWCheckSource" class="com.lcrc.af.gw.GWCheckSource">
+   <attr name="NodeOverview">GWCheckSource polls and checks if the Guidewire product is running and accessible.</attr> 
+</nodedef>
+<nodedef name="GWCheckService" class="com.lcrc.af.gw.GWCheckService">
+ 	<attr name="Group">GW</attr>
+	<attr name="ConsumedEventTypes">Event,Trigger</attr>
+    <attr name="PublishedEventTypes">Boolean</attr>
+    <attr name="NodeQuality" >Beta</attr>  
+	<attr name="NodeDescTemplate">check ${Product} ${Host}</attr>
+	<attr name="NodeOverview">Determines if the Guidewire product is running and accessible </attr>	
+	<datadef name="Host">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">The domain or IP where the Guidewire product is installed.</attr>
+		<attr name="EditOrder" type="Integer">11</attr>
+	</datadef>
+	<datadef name="Port">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">The port where the Guidewire product is installed.</attr>
+		<attr name="EditOrder" type="Integer">12</attr>
+	</datadef>
+	<datadef name="Product">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select the Guidewire product from the Pick Popup. </attr>
+		<attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="EditOrder" type="Integer">1</attr>
+		<attr name="Enum">GWProductPrefix</attr>
+	</datadef>
+	<datadef name="URL">
+		<attr name="Category">Hidden</attr>
+	</datadef>
+	<datadef name="User">
+		<attr name="Category">Hidden</attr>
+	</datadef>
+	<datadef  name="Password">
+		<attr name="Category">Hidden</attr>
+	</datadef>
+	<datadef name="OutputType">
+	  <attr name="Category">Hidden</attr>  
+	</datadef>
+
+</nodedef>
+<nodedef name="GWMsgDelegateSource" class="com.lcrc.af.gw.GWMsgDelegateSource">
+   <attr name="NodeOverview">GWMsgDelegateSource polls the workitem table in the Guidewire database to determine the message delegate backlogs.</attr> 
+</nodedef>
+<nodedef name="GWMsgDelegateService" class="com.lcrc.af.gw.GWMsgDelegateService">
+ 	<attr name="Group">GW</attr>
+	<attr name="ConsumedEventTypes">Event,Trigger</attr>
+    <attr name="PublishedEventTypes">Number</attr>
+    <attr name="NodeQuality" >Beta</attr>  
+	<attr name="NodeOverview">GWMsgDelegateService read the workitem table in the Guidewire database to determine the message delegate backlogs.</attr>	
+	<datadef name="User">
+		<attr name="Category">Standard</attr>
+		<attr name="EditOrder" type="Integer">21</attr>
+	</datadef>
+	<datadef  name="Password">
+		<attr name="Category">Standard</attr>
+		<attr name="EditOrder" type="Integer">22</attr>
+	</datadef>
+	<datadef name="DatabaseType">
+		<attr name="EditOrder" type="Integer">11</attr>
+	    <attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="Desc">Select the Guidewire database type from the Pick Popup. H2, Oracle and SQLServer are supported. </attr>
+		<attr name="Category">Required</attr>
+	</datadef>
+	<datadef name="DBDriver">
+		<attr name="Category">Required</attr>
+		<attr name="EditOrder" type="Integer">12</attr>
+	</datadef>
+	<datadef name="ConnectURL">
+		<attr name="Category">Required</attr>
+		<attr name="EditOrder" type="Integer">13</attr>
+	</datadef>
+	<datadef name="Product">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select the Guidewire product from the Pick Popup. </attr>
+		<attr name="EditOrder" type="Integer">1</attr>
+		<attr name="Enum">GWProductPrefix</attr>
+	</datadef>
+	<datadef name="Version">
+		<attr name="Category">Required</attr>
+		<attr name="EditOrder" type="Integer">2</attr>
+		<attr name="Desc">Select the Guidewire major product version from the Pick Popup.</attr>
+		<attr name="Enum">GWMajorVersion</attr>
+	</datadef>
+	<datadef name="TableSpace">
+		<attr name="Category">Standard</attr>
+		<attr name="Desc">If needed this is the tablespace that will be added as a prefix to the table name.</attr>
+		<attr name="EditOrder" type="Integer">3</attr>
+	</datadef>
+	<datadef name="OutputType">
+	  <attr name="Category">Hidden</attr>  
+	</datadef>
+</nodedef>
+<nodedef name="GWMessageSource" class="com.lcrc.af.gw.GWMessageSource">
+   <attr name="NodeOverview">GWMessageSource polls the message table in the Guidewire database to determine the message backlogs.</attr> 
+</nodedef>
+<nodedef name="GWMessageService" class="com.lcrc.af.gw.GWMessageService">
+ 	<attr name="Group">GW</attr>
+	<attr name="ConsumedEventTypes">Event,Trigger</attr>
+    <attr name="PublishedEventTypes">Number</attr>
+    <attr name="NodeQuality" >Beta</attr>  
+	<attr name="NodeOverview">GWMessageService read the message table in the Guidewire database to determine the message backlogs.</attr>	
+	<datadef name="User">
+		<attr name="Category">Standard</attr>
+		<attr name="EditOrder" type="Integer">21</attr>
+	</datadef>
+	<datadef  name="Password">
+		<attr name="Category">Standard</attr>
+		<attr name="EditOrder" type="Integer">22</attr>
+	</datadef>
+	<datadef name="MonitorStatuses">
+		<attr name="Category">Standard</attr>
+		<attr name="EditOrder" type="Integer">23</attr>
+		<attr name="Desc">Select the Guidewire message states (Inflight, Unsent, Error and Retryable) that should be monitored. If not selected the node monitors all of them</attr>
+		<attr name="RefreshOnChange" type="Boolean">true</attr>
+	</datadef>
+	<datadef name="DatabaseType">
+		<attr name="EditOrder" type="Integer">11</attr>
+	    <attr name="RefreshOnChange" type="Boolean">true</attr>
+		<attr name="Desc">Select the Guidewire database type from the Pick Popup. H2, Oracle and SQLServer are supported. </attr>
+		<attr name="Category">Required</attr>
+	</datadef>
+	<datadef name="DBDriver">
+		<attr name="Category">Required</attr>
+		<attr name="EditOrder" type="Integer">12</attr>
+	</datadef>
+	<datadef name="ConnectURL">
+		<attr name="Category">Required</attr>
+		<attr name="EditOrder" type="Integer">13</attr>
+	</datadef>
+	<datadef name="Product">
+		<attr name="Category">Required</attr>
+		<attr name="Desc">Select the Guidewire product from the Pick Popup. </attr>
+		<attr name="EditOrder" type="Integer">1</attr>
+		<attr name="Enum">GWProductPrefix</attr>
+	</datadef>
+	<datadef name="Version">
+		<attr name="Category">Required</attr>
+		<attr name="EditOrder" type="Integer">2</attr>
+		<attr name="Desc">Select the Guidewire major product version from the Pick Popup.</attr>
+		<attr name="Enum">GWMajorVersion</attr>
+	</datadef>
+	<datadef name="TableSpace">
+		<attr name="Category">Standard</attr>
+		<attr name="Desc">If needed this is the tablespace that will be added as a prefix to the table name.</attr>
+		<attr name="EditOrder" type="Integer">3</attr>
+	</datadef>
+	<datadef name="OutputType">
+	  <attr name="Category">Hidden</attr>  
+	</datadef>
+</nodedef>
+</nodedefs>
