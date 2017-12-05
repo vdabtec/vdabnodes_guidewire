@@ -9,7 +9,7 @@ sourceSets {
         java {
             srcDir 'src'
             exclude '**/gw/GWActivityTransformer.java'
-			exclude '**/gw/GWBaseAgent.java'
+	    exclude '**/gw/GWBaseAgent.java'
        }
    }
 }
@@ -33,6 +33,7 @@ task vdabPackage(dependsOn: [build]){
 			from 'libs'
 			from 'build/libs'
 			into 'pkg/ext'
+			exclude 'VDABCore.jar'
 		}
 		ant.zip(destfile: 'PKG_GWNodes.zip'){
 			fileset (dir: 'pkg')
