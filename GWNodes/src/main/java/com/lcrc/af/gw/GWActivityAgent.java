@@ -84,8 +84,12 @@ public class GWActivityAgent extends RemotePolledAgent {
 				AnalysisEvent ev = new AnalysisEvent(getVDABSource(), acd0);
 				ev.setOrigins(getVDABSource(), "0.0.0.0");
 				ev.setEventPropogationLevel(1);
-				logInfo("GWActivityAgent._flush()", "Sending Event to Object OBJ="+getTargetRef());
-				new RemoteFunctionRunner(getTargetRef(),REMOTEFUNCTION,new Object[] {getVDABSource(), new AnalysisEvent[]{ev}});
+				Integer flushTime = getFlushTimeInMillis();
+				if (flushTime > 1000)
+					flushTime -= 800;
+				
+				logInfo("GWActivityAgent._flush()", "Sending Event to Object OBJ="+getTargetRef()+" FLUSHTIME="+flushTime);
+				new RemoteFunctionRunner(getTargetRef(),REMOTEFUNCTION,new Object[] {getVDABSource(), new AnalysisEvent[]{ev}},flushTime);
 			}
 		}
 	

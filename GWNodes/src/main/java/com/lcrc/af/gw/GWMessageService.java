@@ -6,12 +6,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.lcrc.af.AnalysisCompoundData;
-import com.lcrc.af.AnalysisData;
 import com.lcrc.af.AnalysisDataDef;
 import com.lcrc.af.AnalysisEvent;
 import com.lcrc.af.constants.IconCategory;
 import com.lcrc.af.constants.SpecialText;
-import com.lcrc.af.datatypes.AFEnum;
 import com.lcrc.af.service.DBQueryService__A;
 import com.lcrc.af.util.ControlDataBuffer;
 
@@ -27,6 +25,8 @@ public class GWMessageService extends DBQueryService__A {
 		String c_Dest;
 		int c_Unsent;
 		int c_Inflight;
+		int c_Error;
+		int c_Retryable;
 		public GWDestData(String dest){
 			c_Dest = dest;
 		}
@@ -36,6 +36,12 @@ public class GWMessageService extends DBQueryService__A {
 		public void setInflight(int inflight){
 			c_Inflight = inflight;
 		}
+		public void setError(int error){
+			c_Error = error;
+		}
+		public void setRetryable(int retryable){
+			c_Retryable = retryable;
+		}
 		public String getDest(){
 			return c_Dest;
 		}
@@ -44,6 +50,12 @@ public class GWMessageService extends DBQueryService__A {
 		}
 		public Integer getInflight(){
 			return c_Inflight;
+		}
+		public Integer getError(){
+			return c_Error;
+		}
+		public Integer getRetryable(){
+			return c_Retryable;	
 		}
 	}
 	// ATTRIBUTES ---------------------------------------------------
@@ -83,7 +95,6 @@ public class GWMessageService extends DBQueryService__A {
 		else {
 			c_cdb_MonitorStatuses.set(statuses);
 		}
-//		setError("SQL="+buildQuery(null));
 	}
 	public AnalysisDataDef def_MonitorStatuses(AnalysisDataDef theDataDef){
 		String[] statusLabels = GWMessageStatusType.getEnum().getAllLabels();
@@ -129,13 +140,25 @@ public class GWMessageService extends DBQueryService__A {
 				}
 				int count  = rs.getInt(2);
 				int statusCode = rs.getInt(3);
+				
+				if (!isStatusEnabled(statusCode))
+					continue;
+				
 				switch (statusCode){
-				case GWMessageStatusType.UNSENT:
+				case GWMessageStatusType.UNSENT:	
 					destData.setUnsent(count);
 					break;
 
 				case GWMessageStatusType.INFLIGHT:
 					destData.setInflight(count);
+					break;	
+					
+				case GWMessageStatusType.ERROR:
+					destData.setError(count);
+					break;
+
+				case GWMessageStatusType.RETRYABLE:
+					destData.setRetryable(count);
 					break;	
 				}
 			}
@@ -150,9 +173,21 @@ public class GWMessageService extends DBQueryService__A {
 			String dest = destEntry.getKey();
 			AnalysisCompoundData acd2 = new AnalysisCompoundData(dest);
 			acd.addAnalysisData(acd2);
-			acd2.addAnalysisData("Unsent", destEntry.getValue().getUnsent());
-			acd2.addAnalysisData("Inflight", destEntry.getValue().getInflight());
+			if (isStatusEnabled(GWMessageStatusType.UNSENT))
+				acd2.addAnalysisData("Unsent", destEntry.getValue().getUnsent());
+			if (isStatusEnabled(GWMessageStatusType.INFLIGHT))
+				acd2.addAnalysisData("Inflight", destEntry.getValue().getInflight());
+			if (isStatusEnabled(GWMessageStatusType.ERROR))
+				acd2.addAnalysisData("Error", destEntry.getValue().getError());
+			if (isStatusEnabled(GWMessageStatusType.RETRYABLE))
+				acd2.addAnalysisData("Retryable", destEntry.getValue().getRetryable());
 		}
 		return new AnalysisEvent[]{ new AnalysisEvent(this, acd)};
+	}
+	private boolean isStatusEnabled(int code){
+		if (c_cdb_MonitorStatuses.isEmpty())
+			return true;
+		return c_cdb_MonitorStatuses.isSet(GWMessageStatusType.getEnum().getLabel(code));
+		
 	}
 }
