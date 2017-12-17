@@ -28,7 +28,6 @@ task getVDABCore(type: GetFile) {
     sourceUrl = 'http://vdabtec.com/vdab/products/VDABCore.jar'
     target = file('libs/VDABCore.jar')
 }
-
 class GetFile extends DefaultTask {
     @Input
     String sourceUrl
@@ -41,7 +40,6 @@ class GetFile extends DefaultTask {
        ant.get(src: sourceUrl, dest: target)
     }
 }
-
 tasks.compileJava.dependsOn([getVDABCore])
 
 task vdabPackage(dependsOn: [build]){
