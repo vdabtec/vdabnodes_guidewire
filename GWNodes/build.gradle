@@ -4,24 +4,45 @@ version = ''
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+
 sourceSets {
     main {
         java {
             srcDir 'src'
             exclude '**/gw/GWActivityTransformer.java'
-	    exclude '**/gw/GWBaseAgent.java'
+			exclude '**/gw/GWBaseAgent.java'
        }
    }
 }
 
 dependencies {
     compile files('libs/VDABCore.jar' )
- }
+}
  
  //Get dependencies from Maven central repository
 repositories {
     mavenCentral()
 }
+
+task getVDABCore(type: GetFile) {
+    sourceUrl = 'http://vdabtec.com/vdab/products/VDABCore.jar'
+    target = file('libs/VDABCore.jar')
+}
+
+class GetFile extends DefaultTask {
+    @Input
+    String sourceUrl
+
+    @OutputFile
+    File target
+
+    @TaskAction
+    void download() {
+       ant.get(src: sourceUrl, dest: target)
+    }
+}
+
+tasks.compileJava.dependsOn([getVDABCore])
 
 task vdabPackage(dependsOn: [build]){
 	doLast {
@@ -40,3 +61,4 @@ task vdabPackage(dependsOn: [build]){
 		}
 	}
 }
+
