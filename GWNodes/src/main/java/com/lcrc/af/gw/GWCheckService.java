@@ -1,14 +1,29 @@
+/*LICENSE*
+ * Copyright (C) 2013 - 2018 MJA Technology LLC 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 package com.lcrc.af.gw;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import vdab.api.node.HTTPService_A;
 
 import com.lcrc.af.AnalysisEvent;
 import com.lcrc.af.constants.IconCategory;
-import com.lcrc.af.service.HTTPService;
 
-public class GWCheckService extends HTTPService {
+public class GWCheckService extends HTTPService_A {
 	
 	static {
 		GWProductPrefix.getEnum();
@@ -79,14 +94,13 @@ public class GWCheckService extends HTTPService {
 	public String buildCompleteURL(AnalysisEvent ev){
 		StringBuilder sb = new StringBuilder();
 		sb.append(GWWebSvcUtility.buildWsUrl(c_Host, c_Port,c_Product));
-		// TODO - Need to get this right
 		sb.append("/ping");
 		return sb.toString();
 	}
 	public void serviceFailed(AnalysisEvent ev, int code){
 		serviceResponse(ev, new AnalysisEvent(this, "ServerCheck" , Boolean.FALSE));	
 	}
-	public void processReturnStream(AnalysisEvent inEvent, InputStream is){
+	public void processReturnStream(AnalysisEvent inEvent, int msgCode, InputStream is){
 		BufferedReader in = new BufferedReader(new InputStreamReader(is));
 		String line;
 		StringBuilder sb = new StringBuilder();
@@ -104,4 +118,5 @@ public class GWCheckService extends HTTPService {
 	private Boolean isThere(String response){
 		return Boolean.valueOf(response.indexOf("2") >= 0);
 	}
+
  }
