@@ -122,6 +122,7 @@
 	</datadef>
 	<datadef  name="Password">
 		<attr name="Category">Standard</attr>
+		<attr name="SpecialType">Password</attr>
 		<attr name="EditOrder" type="Integer">22</attr>
 	</datadef>
 	<datadef name="DatabaseType">
@@ -174,6 +175,7 @@
 	</datadef>
 	<datadef  name="Password">
 		<attr name="Category">Standard</attr>
+		<attr name="SpecialType">Password</attr>
 		<attr name="EditOrder" type="Integer">22</attr>
 	</datadef>
 	<datadef name="MonitorStatuses">
