@@ -57,6 +57,7 @@ task vdabPackage(dependsOn: [build]){
 		ant.zip(destfile: 'PKG_GWNodes.zip'){
 			fileset (dir: 'pkg')
 		}
+		delete "libs/VDABCore.jar"
 	}
 }
 
