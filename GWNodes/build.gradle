@@ -16,7 +16,7 @@ sourceSets {
 }
 
 dependencies {
-    compile files('libs/VDABCore.jar' )
+    compile files('build/vdab/VDABCore.jar' )
 }
  
  //Get dependencies from Maven central repository
@@ -26,7 +26,7 @@ repositories {
 
 task getVDABCore(type: GetFile) {
     sourceUrl = 'http://vdabtec.com/vdab/products/VDABCore.jar'
-    target = file('libs/VDABCore.jar')
+    target = file('build/vdab/VDABCore.jar')
 }
 class GetFile extends DefaultTask {
     @Input
@@ -49,15 +49,19 @@ task vdabPackage(dependsOn: [build]){
 		println ">>>>> Found needed jar file = $nextFile.name"
 		}
 		copy {
+			from 'pkg'
+			into 'build/vdab/pkg'
+		}
+
+		copy {
 			from 'libs'
 			from 'build/libs'
-			into 'pkg/ext'
-			exclude 'VDABCore.jar'
+			into 'build/vdab/pkg/ext'
 		}
+			
 		ant.zip(destfile: 'PKG_GWNodes.zip'){
-			fileset (dir: 'pkg')
+			fileset (dir: 'build/vdab/pkg')
 		}
-		delete "libs/VDABCore.jar"
 	}
 }
 
