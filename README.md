@@ -3,12 +3,12 @@
 This repository includes the source and libraries needed to build the VDAB nodes that support Guidewire product monitoring and control.
 While most of the nodes work with any version of Guidewire products, the GWControlService
 only works with Version 8 of the product. 
- 
- | 
- --- |  :---:
- Application Page :   | [Guidewire Monitoring and Control](https://vdabtec.com/vdab/app-guides/guidewire-monitoring-and-control)
- Demo Web Link :  | [gw-demo.vdabcloud.com:31158/vdab](http://gw-demo.vdabcloud.com:31158/vdab)
- Documentation :  | [Accelerator Guide](https://vdabtec.com/vdab/docs/MonitoringAndControlAccelerator.pdf)
+
+| | |
+|  --- |  :---: |
+| Application Page    | [Guidewire Monitoring and Control](https://vdabtec.com/vdab/app-guides/guidewire-monitoring-and-control) |
+| Demo Web Link   | [gw-demo.vdabcloud.com:31158/vdab](http://gw-demo.vdabcloud.com:31158/vdab) |
+| Documentation   | [Accelerator Guide](https://vdabtec.com/vdab/docs/MonitoringAndControlAccelerator.pdf) |
 
 ### Features
 <ul>
